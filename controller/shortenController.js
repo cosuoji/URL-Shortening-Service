@@ -25,7 +25,8 @@ export const getUrlStats = async(req, res) =>{
 export const shortenUrl = async(req, res) =>{
     try {
         const {url} = req.body
-        const result = shortenService.shortenUrl(url)
+        const result = await shortenService.shortenUrl(url)
+        console.log(result)
         res.json(result)
         
     } catch (error) {

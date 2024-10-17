@@ -14,7 +14,7 @@ const MONGODB_URI = process.env.MONGODB_URI
 
 const app = express();
 app.use(express.json())
-app.use(httpLogger)
+//app.use(httpLogger)
 app.use(morgan('dev'))
 
 
