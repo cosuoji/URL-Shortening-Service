@@ -3,11 +3,11 @@ import * as shortenService from "../services/shortenService.js"
 export const getUrlInfo = async(req, res) =>{
     try {
         const {url} = req.params
-        const result = shortenService.getUrlInfo(url)
+        const result = await shortenService.getUrlInfo(url)
         res.json(result)
         
     } catch (error) {
-        res.status(500).json({message: error.message}) 
+        res.status(400).json({message: error.message}) 
     }
 }
 
@@ -15,7 +15,7 @@ export const getUrlStats = async(req, res) =>{
     try {
         const {url} = req.params
         const result = shortenService.getUrlStats(url)
-        res.json(result)
+        res.status(200).json(result)
         
     } catch (error) {
         res.status(500).json({message: error.message}) 
@@ -26,11 +26,10 @@ export const shortenUrl = async(req, res) =>{
     try {
         const {url} = req.body
         const result = await shortenService.shortenUrl(url)
-        console.log(result)
-        res.json(result)
+        res.status(201).json(result)
         
     } catch (error) {
-        res.status(500).json({message: error.message}) 
+        res.status(400).json({message: error.message}) 
     }
 }
 

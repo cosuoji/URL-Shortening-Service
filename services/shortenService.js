@@ -3,9 +3,10 @@ import URL from "../database/schema/urlSchema.js";
 
 export const getUrlInfo = async(url) =>{
     try {
-    
+        
+        const retrievedUrl = await URL.find({shortCode: url})
         return {
-            message: ""
+            message: retrievedUrl[0]
         }
 
     } catch (error) {
@@ -49,7 +50,7 @@ export const shortenUrl = async(url) =>{
         }
 
     } catch (error) {
-        throw new ErrorWithStatus(error.message, 500)
+        throw new ErrorWithStatus(error.message, 400)
     }
 }
 
