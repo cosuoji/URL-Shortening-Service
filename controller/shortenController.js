@@ -14,7 +14,7 @@ export const getUrlInfo = async(req, res) =>{
 export const getUrlStats = async(req, res) =>{
     try {
         const {url} = req.params
-        const result = shortenService.getUrlStats(url)
+        const result = await shortenService.getUrlInfo(url)
         res.status(200).json(result)
         
     } catch (error) {
@@ -35,22 +35,23 @@ export const shortenUrl = async(req, res) =>{
 
 export const updateUrl = async(req, res) =>{
     try {
-        const {url} = req.params
-        const result = shortenService.updateUrl(url)
-        res.json(result)
+        const shortCode = req.params.url
+        const {url} = req.body
+        const result = await shortenService.updateUrl(shortCode, url)
+        res.status(200).json(result)
         
     } catch (error) {
-        res.status(500).json({message: error.message}) 
+        res.status(404).json({message: error.message}) 
     }
 }
 
 export const deleteUrl = async(req, res) =>{
     try {
         const {url} = req.params
-        const result = shortenService.deleteUrl(url)
-        res.json(result)
+        const result = await shortenService.deleteUrl(url)
+        res.status(204).json(result)
         
     } catch (error) {
-        res.status(500).json({message: error.message}) 
+        res.status(404).json({message: error.message}) 
     }
 }

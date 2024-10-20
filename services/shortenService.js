@@ -5,9 +5,16 @@ export const getUrlInfo = async(url) =>{
     try {
         
         const retrievedUrl = await URL.find({shortCode: url})
-        return {
+        if(retrievedUrl.length !== 0){
+             return {
             message: retrievedUrl[0]
         }
+        } else {
+            return {
+                message: "404 Not Found"
+            }
+        }
+
 
     } catch (error) {
         throw new ErrorWithStatus(error.message, 500)
@@ -25,6 +32,7 @@ export const getUrlStats = async(url) =>{
         throw new ErrorWithStatus(error.message, 500)
     }
 }
+
 export const shortenUrl = async(url) =>{
     try {
         let id
@@ -54,13 +62,20 @@ export const shortenUrl = async(url) =>{
     }
 }
 
-export const updateUrl = async(url) =>{
+export const updateUrl = async(shortCode,url) =>{
     try {
-    
-        return {
-            message: ""
+        let urlToEdit = await URL.findOneAndUpdate({shortCode: shortCode}, {url:url, updatedAt: Date.now()})
+        if(urlToEdit){
+            return {
+                message: "OK"
+            }
+        } else{
+         return {
+            message: "Not Found"
         }
 
+        }
+    
     } catch (error) {
         throw new ErrorWithStatus(error.message, 500)
     }
@@ -70,8 +85,15 @@ export const updateUrl = async(url) =>{
 export const deleteUrl = async(url) =>{
     try {
     
-        return {
-            message: ""
+        let urlToDelete = await URL.findOneAndDelete({shortCode: url})
+        if(urlToDelete){
+            return {
+                message: "No Content"
+            }
+        } else{
+         return {
+            message: "Not Found"
+        }
         }
 
     } catch (error) {
